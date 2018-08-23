@@ -43,6 +43,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// middleware per il maintenance mode
 app.use((req, res, next) => {
   res.render("maintenance");
   // no next! vogliamo che se il sito è in manutenzione, non si prosegua oltre!
