@@ -38,7 +38,6 @@ hbs.registerHelper("screamIt", (text) => {
 // handlebars come motore per il rendering delle view
 app.set("view engine", "hbs");
 
-
 // registriamo un middleware
 app.use((req, res, next) => {
   // qui possiamo inserire db calls, validazioni etc...
@@ -78,8 +77,6 @@ app.use(express.static(__dirname + "/public"));
 // primo argument: percorso di routing;
 // secondo: funzione da eseguire quando viene effettuata una get
 app.get("/json", (req, res) => {
-  //res.send("<h1>Hello Express</h1>");
-
   res.send({
     name: "test",
     array: ['Bike', 'Run', 'Swim'],
@@ -92,19 +89,35 @@ app.get("/help",(req, res) => {
   res.send("<h1>About Page</h1>");
 });
 
+const viewProperties = {
+  home: {
+    pageTitle: "Home Page",
+    welcomeMessage: "Welcome to this node/handlebars website."
+  },
+  about: {
+    pageTitle: "About Page"
+  },
+  projects: {
+    pageTitle: "Projects Page"
+  }
+};
+
+app.get("/",(req, res) => {
+  res.render("home", viewProperties.home);
+});
+
 // static template rendering di un handlebars template (default: si trova nella cartella /views ed ha estensione .hbs)
 // per passare parametri: secondo argomento di render()
 app.get("/about",(req, res) => {
-  res.render("about", {
-    pageTitle: "About Page"
-  });
+  res.render("about", viewProperties.about);
 });
 
 app.get("/home",(req, res) => {
-  res.render("home", {
-    pageTitle: "Home Page",
-    welcomeMessage: "Welcome to this node/handlebars website."
-  });
+  res.render("home", viewProperties.home);
+});
+
+app.get("/projects",(req, res) => {
+  res.render("projects", viewProperties.projects);
 });
 
 // esempio per pagina di errore
