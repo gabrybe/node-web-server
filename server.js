@@ -1,4 +1,6 @@
-﻿const port = 3000;
+﻿// serve per il deploy su heroku, che assegna (sui propri server) automaticamente la porta
+// in locale (o dove non è definita la variabile di ambiente "PORT") si usa la 3000
+const port = process.env.PORT || 3000;
 const logFile = __dirname + "/logs/server.log";
 
 const express = require("express");

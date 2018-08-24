@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "//": "script di start (usato da heroku sulla propria command line per far partire l'applicazione dopo il deploy sui propri servers)",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
