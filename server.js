@@ -6,8 +6,22 @@ const logFile = __dirname + "/logs/server.log";
 const express = require("express");
 const hbs = require("hbs");
 const fs = require("fs");
+const yargs = require("yargs");
+
+const maintenanceOptions = {
+  describe: "maintenance", // descrizione parametro
+  default: false,
+  alias: "m", // shortcut
+  boolean: true // specifica se interpretarlo sempre come boolean
+};
 
 var app = express();
+
+var argv = yargs
+  .options({maintenance: maintenanceOptions})
+.argv;
+
+const maintenance = argv.maintenance;
 
 // partials: percorso di frammenti handlebars che possono essere usati su più pagine
 hbs.registerPartials(__dirname + "/views/partials");
@@ -46,10 +60,13 @@ app.use((req, res, next) => {
 });
 
 // middleware per il maintenance mode
-app.use((req, res, next) => {
-  res.render("maintenance");
-  // no next! vogliamo che se il sito è in manutenzione, non si prosegua oltre!
-});
+console.log(`Maintenance mode: ${maintenance}`);
+if (maintenance) {
+  app.use((req, res, next) => {
+    res.render("maintenance");
+    // no next! vogliamo che se il sito è in manutenzione, non si prosegua oltre!
+  });
+}
 
 // specifica di servire come contenuto statico tutto ciò che è nella cartella /public
 // si include in genere dopo gli handlers "generici" (es. manutenzione, logging) in modo che se uno di questi
